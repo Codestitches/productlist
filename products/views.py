@@ -5,8 +5,8 @@ from django.shortcuts import render
 from bs4 import BeautifulSoup
 from . import models
 
-BASE_CRAIGSLIST_URL = 'https://losangeles.craigslist.org/search/?query={}'
-BASE_IMAGE_URL = 'https://images.craigslist.org/{}_600x450.jpg'
+BASE_CRAIGSLIST_URL = 'https://https://losangeles.craigslist.org/search/?query={}'
+BASE_IMAGE_URL = 'https://'
 
 
 def home(request):
@@ -15,9 +15,11 @@ def home(request):
 
 def new_search(request):
     search = request.POST.get('search')
+    print(quote_plus(search))
     models.Search.objects.create(search=search)
     final_url = BASE_CRAIGSLIST_URL.format(quote_plus(search))
-    response = requests.get(final_url)
+    print(final_url)
+    response = requests.get('https://losangeles.craigslist.org/search/?query=python%20tutor&sort=rel')
     data = response.text
     soup = BeautifulSoup(data, features='html.parser')
     post_listings = soup.find_all('li', {'class': 'result-row'})
@@ -44,7 +46,6 @@ def new_search(request):
         stuff_for_frontend = {
             'search': search,
             'final_postings': final_postings
-
 
         }
         return render(request, 'my_app/new_search.html', stuff_for_frontend)
