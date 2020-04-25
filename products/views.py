@@ -47,4 +47,4 @@ def new_search(request):
 
 
         }
-        return render(request, 'products/new_search.html', stuff_for_frontend)
+        return render(request, 'my_app/new_search.html', stuff_for_frontend)
